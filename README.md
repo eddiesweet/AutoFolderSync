@@ -9,14 +9,22 @@
 <a name="한국어"></a>
 ## 🇰🇷 Auto Folder Sync (자동 폴더 동기화 프로그램)
 
-지정한 원본 폴더의 데이터를 백업 폴더로 자동 동기화하여 안전하게 보호하는 .NET 8 WPF 기반의 데스크톱 애플리케이션입니다.
+산업용 장비 제어 PC 및 일반 데스크톱 환경에서 지정한 원본 폴더의 데이터를 백업 폴더로 주기적으로 자동 동기화하여 데이터 유실을 방지하는 .NET 8 WPF 기반의 경량 데스크톱 애플리케이션입니다.
+
+### 💡 개발 배경 및 필요성
+- **RAID의 한계 극복**: 하드웨어 미러링(RAID 1)은 물리적 드라이브 고장에는 대응할 수 있으나, 랜섬웨어 감염이나 작업자 실수로 인한 파일 손상 시 오염된 상태가 실시간으로 동기화되어 백업의 의미가 사라지는 한계가 있습니다.
+- **산업용 장비 실무 적용**: 디스펜서 등 장기 구동되는 산업용 장비 환경에서 로그 및 핵심 데이터가 담긴 특정 폴더를 시간차를 두고 안전하게 백업하기 위해 개발되었습니다. 소프트웨어적인 주기적 미러링을 통해 소프트웨어적 위협과 파일 손상에 대비합니다.
 
 ### 🚀 주요 기능
-* **실시간 미러링 백업**: 원본 폴더의 변경 사항(파일 추가·수정·삭제)을 대상 폴더에 완벽하게 동기화합니다.
-* **자유로운 백업 주기 설정**: 1분, 10분, 30분, 1시간 단위로 자동 백업 간격을 유연하게 선택할 수 있습니다.
-* **다국어 지원**: 한국어(KO)와 영어(EN) 인터페이스를 실시간으로 전환할 수 있습니다.
-* **윈도우 시작 시 자동 실행**: 시스템 부팅 시 백그라운드에서 백업을 유지하도록 설정할 수 있습니다.
-* **안전한 로깅 시스템**: 멀티스레드 동시 쓰기 방지 및 30일 경과 로그 자동 정돈 기능을 제공합니다.
+- **완벽한 폴더 미러링**: 원본 폴더의 파일 생성·수정·삭제 변경 사항을 지정한 대상 폴더에 안전하게 동기화합니다.
+- **자유로운 백업 주기 설정**: 1분, 10분, 30분, 1시간 단위로 자동 백업 간격을 유연하게 선택할 수 있습니다.
+- **장기 구동 안정성 (로그 자동 정리)**: 산업용 PC에서 24시간 무인 구동 시 발생할 수 있는 로그 비대화 방지를 위해, 내부 프로그램 로그는 **항상 가장 최신 1,000줄만 유지**되도록 최적화되어 있습니다[cite: 16].
+- **다국어 지원**: 한국어(KO)와 영어(EN) 인터페이스를 실시간으로 전환할 수 있습니다.
+- **윈도우 시작 시 자동 실행**: 시스템 부팅 시 백그라운드에서 조용하고 확실하게 데이터를 보호합니다.
+
+### 💻 시스템 요구 사항
+- **지원 환경**: Windows 10 및 Windows 11 (64비트) (`.NET 8` 기반 Self-contained)
+- **미지원 환경**: Windows 7 및 32비트 운영체제
 
 ---
 <img width="888" height="644" alt="image" src="https://github.com/user-attachments/assets/dcd1a5f0-9b8c-43ab-8c68-4ecfaf1f7876" />
@@ -25,11 +33,24 @@
 <a name="english"></a>
 ## 🇬🇧 Auto Folder Sync
 
-A WPF-based desktop application designed to automatically synchronize and protect data from a specified source folder to a backup folder.
+A lightweight .NET 8 WPF desktop application designed to automatically synchronize and protect data from a specified source folder to a backup folder, optimized for both industrial control systems and general use.
+
+### 💡 Background & Motivation
+- **Overcoming RAID Limitations**: While hardware mirroring (RAID 1) protects against physical drive failures, it instantly propagates corrupted states (due to ransomware or human error) to the backup drive. 
+- **Industrial Field Application**: Developed to reliably back up specific target folders (such as dispenser control logs and working files) running on long-term industrial systems using scheduled software-based time-diff mirroring rather than raw real-time replication.
 
 ### 🚀 Key Features
-* **Real-time Mirroring Backup**: Detects changes in the source folder and synchronizes them perfectly to the destination.
-* **Flexible Backup Intervals**: Choose from 1-minute, 10-minute, 30-minute, or 1-hour automatic backup intervals.
-* **Multi-language Support**: Real-time switching between Korean (KO) and English (EN) interfaces.
-* **Windows Startup Integration**: Option to run automatically upon system startup.
-* **Safe Logging System**: Thread-safe logging with automatic cleanup of logs older than 30 days.
+- **Folder Mirroring**: Accurately synchronizes file additions, modifications, and deletions from the source to the destination folder.
+- **Flexible Backup Intervals**: Choose from 1-minute, 10-minute, 30-minute, or 1-hour automatic backup intervals.
+- **Long-term Stability (Log Trimming)**: Automatically manages and retains only the **latest 1,000 log lines** to prevent disk/memory bloat during 24/7 unmonitored industrial operation[cite: 16].
+- **Multi-language Support**: Real-time switching between Korean (KO) and English (EN) interfaces.
+- **Windows Startup Integration**: Option to run automatically upon system startup in the background.
+
+### 💻 System Requirements
+- **Supported**: Windows 10 & Windows 11 (64-bit, .NET 8 Self-contained)
+- **Not Supported**: Windows 7 and 32-bit OS
+
+---
+
+## 📄 License
+This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for details.
