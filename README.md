@@ -3,6 +3,7 @@
 [English](#english) | [한국어](#한국어)
 
 ---
+<img width="888" height="644" alt="image" src="https://github.com/user-attachments/assets/6dff3d41-8eb6-471b-a99b-393732fc2eda" />
 
 <a name="한국어"></a>
 ## 🇰🇷 Auto Folder Sync (자동 폴더 동기화 프로그램)
@@ -17,6 +18,7 @@
 * **안전한 로깅 시스템**: 멀티스레드 동시 쓰기 방지 및 30일 경과 로그 자동 정돈 기능을 제공합니다.
 
 ---
+<img width="888" height="644" alt="image" src="https://github.com/user-attachments/assets/1abe14b6-2d28-4bab-a9d5-65be23a58f82" />
 
 <a name="english"></a>
 ## 🇬🇧 Auto Folder Sync
