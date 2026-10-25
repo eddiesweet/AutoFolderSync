@@ -1,0 +1,218 @@
+﻿using System.Drawing.Printing;
+using System.Reflection.Metadata;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Media.Effects;
+using System.Windows.Media.Media3D;
+using System.Windows.Shapes;
+using System.Xml.Linq;
+using static System.Net.Mime.MediaTypeNames;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.TrayNotify;
+
+< Window x: Class = "IndustrialBackup.MainWindow"
+        xmlns = "http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns: x = "http://schemas.microsoft.com/winfx/2006/xaml"
+        Title = "Industrial Data Backup Manager"
+        Height = "650"
+        Width = "900"
+        WindowStartupLocation = "CenterScreen"
+        Background = "#F3F4F6" >
+
+    < Grid Margin = "20" >
+        < Grid.RowDefinitions >
+            < RowDefinition Height = "Auto" />
+            < RowDefinition Height = "Auto" />
+            < RowDefinition Height = "Auto" />
+            < RowDefinition Height = "Auto" />
+            < RowDefinition Height = "*" />
+            < RowDefinition Height = "Auto" />
+        </ Grid.RowDefinitions >
+
+        < !--상단 타이틀-- >
+        < StackPanel Grid.Row = "0" Margin = "0,0,0,20" >
+            < TextBlock Text = "산업용 장비 실시간 미러링 백업"
+                       FontSize = "22"
+                       FontWeight = "Bold"
+                       Foreground = "#1F2937" />
+            < TextBlock Text = "Disk 0 (C:)의 핵심 데이터를 Disk 1 (D:)로 안전하게 동기화합니다."
+                       FontSize = "13"
+                       Foreground = "#6B7280"
+                       Margin = "0,5,0,0" />
+        </ StackPanel >
+
+        < !--폴더 경로 설정 -->
+        <Border Grid.Row="1" Background="White" CornerRadius="8" Padding="15" Margin="0,0,0,15">
+            <Border.Effect>
+                <DropShadowEffect Color="#CBD5E1" BlurRadius="10" ShadowDepth="2" Opacity="0.3"/>
+            </Border.Effect>
+
+            <StackPanel>
+                <TextBlock Text="폴더 경로 설정"
+                           FontWeight="Bold"
+                           FontSize="14"
+                           Foreground="#374151"
+                           Margin="0,0,0,10"/>
+
+                <Grid Margin="0,0,0,10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="110"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="90"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Text="원본 (C드라이브)"
+                               VerticalAlignment="Center"
+                               Foreground="#4B5563"
+                               FontWeight="SemiBold"/>
+
+                    <TextBox x:Name = "txtSourcePath"
+                             Grid.Column = "1"
+                             Height = "32"
+                             VerticalContentAlignment = "Center"
+                             Padding = "5,0"
+                             Margin = "10,0"
+                             IsReadOnly = "True"
+                             Background = "#F9FAFB" />
+
+                    < Button x: Name = "btnBrowseSource"
+                            Grid.Column = "2"
+                            Content = "찾아보기"
+                            Height = "32"
+                            Background = "#E5E7EB"
+                            BorderBrush = "#D1D5DB"
+                            Cursor = "Hand" />
+                </ Grid >
+
+                < Grid >
+                    < Grid.ColumnDefinitions >
+                        < ColumnDefinition Width = "110" />
+                        < ColumnDefinition Width = "*" />
+                        < ColumnDefinition Width = "90" />
+                    </ Grid.ColumnDefinitions >
+
+                    < TextBlock Text = "백업 (D드라이브)"
+                               VerticalAlignment = "Center"
+                               Foreground = "#4B5563"
+                               FontWeight = "SemiBold" />
+
+                    < TextBox x: Name = "txtTargetPath"
+                             Grid.Column = "1"
+                             Height = "32"
+                             VerticalContentAlignment = "Center"
+                             Padding = "5,0"
+                             Margin = "10,0"
+                             IsReadOnly = "True"
+                             Background = "#F9FAFB" />
+
+                    < Button x: Name = "btnBrowseTarget"
+                            Grid.Column = "2"
+                            Content = "찾아보기"
+                            Height = "32"
+                            Background = "#E5E7EB"
+                            BorderBrush = "#D1D5DB"
+                            Cursor = "Hand" />
+                </ Grid >
+            </ StackPanel >
+        </ Border >
+
+        < !--옵션 설정-- >
+        < Border Grid.Row = "2" Background = "White" CornerRadius = "8" Padding = "15" Margin = "0,0,0,15" >
+            < Border.Effect >
+                < DropShadowEffect Color = "#CBD5E1" BlurRadius = "10" ShadowDepth = "2" Opacity = "0.3" />
+            </ Border.Effect >
+
+            < StackPanel >
+                < TextBlock Text = "백업 환경 설정"
+                           FontWeight = "Bold"
+                           FontSize = "14"
+                           Foreground = "#374151"
+                           Margin = "0,0,0,10" />
+
+                < WrapPanel >
+                    < CheckBox x: Name = "chkAutoBackup"
+                              Content = "10분마다 자동 백업 실행"
+                              IsChecked = "True"
+                              FontSize = "13"
+                              Margin = "0,0,30,0"
+                              VerticalContentAlignment = "Center" />
+                    < CheckBox x: Name = "chkStartup"
+                              Content = "윈도우 시작 시 자동 실행 (시작프로그램)"
+                              FontSize = "13"
+                              VerticalContentAlignment = "Center" />
+                </ WrapPanel >
+            </ StackPanel >
+        </ Border >
+
+        < !--실행 버튼-- >
+        < Grid Grid.Row = "3" Margin = "0,0,0,15" >
+            < Grid.ColumnDefinitions >
+                < ColumnDefinition Width = "*" />
+                < ColumnDefinition Width = "150" />
+            </ Grid.ColumnDefinitions >
+
+            < StackPanel VerticalAlignment = "Center" Orientation = "Horizontal" >
+                < Ellipse x: Name = "statusIndicator"
+                         Width = "12"
+                         Height = "12"
+                         Fill = "#10B981"
+                         Margin = "0,0,8,0" />
+                < TextBlock x: Name = "txtStatus"
+                           Text = "상태: 대기 중"
+                           Foreground = "#4B5563"
+                           FontWeight = "SemiBold"
+                           FontSize = "13" />
+            </ StackPanel >
+
+            < Button x: Name = "btnToggleBackup"
+                    Grid.Column = "1"
+                    Content = "백업 시작"
+                    Height = "40"
+                    Background = "#2563EB"
+                    Foreground = "White"
+                    FontWeight = "Bold"
+                    FontSize = "14"
+                    BorderBrush = "{x:Null}"
+                    Cursor = "Hand" />
+        </ Grid >
+
+        < !--실시간 로그-- >
+        < Border Grid.Row = "4" Background = "White" CornerRadius = "8" Padding = "15" Margin = "0,0,0,10" >
+            < Border.Effect >
+                < DropShadowEffect Color = "#CBD5E1" BlurRadius = "10" ShadowDepth = "2" Opacity = "0.3" />
+            </ Border.Effect >
+
+            < Grid >
+                < Grid.RowDefinitions >
+                    < RowDefinition Height = "Auto" />
+                    < RowDefinition Height = "*" />
+                </ Grid.RowDefinitions >
+
+                < TextBlock Text = "실시간 백업 로그"
+                           FontWeight = "Bold"
+                           FontSize = "13"
+                           Foreground = "#374151"
+                           Margin = "0,0,0,8" />
+
+                < TextBox x: Name = "txtLog"
+                         Grid.Row = "1"
+                         AcceptsReturn = "True"
+                         IsReadOnly = "True"
+                         Background = "#111827"
+                         Foreground = "#34D399"
+                         FontFamily = "Consolas"
+                         FontSize = "12"
+                         Padding = "8"
+                         BorderBrush = "{x:Null}"
+                         VerticalScrollBarVisibility = "Auto"
+                         TextWrapping = "Wrap" />
+            </ Grid >
+        </ Border >
+
+        < !--하단 상태바-- >
+        < TextBlock Grid.Row = "5"
+                   Text = "Industrial Backup System v1.0 | Disk 0 ➔ Disk 1 Mirroring Active"
+                   FontSize = "11"
+                   Foreground = "#9CA3AF"
+                   HorizontalAlignment = "Center" />
+    </ Grid >
+</ Window >
