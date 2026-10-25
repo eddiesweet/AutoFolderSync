@@ -241,7 +241,7 @@
 
         <!-- 하단 상태바 및 프로그램 정보 버튼 -->
         <Grid Grid.Row="5" Margin="0,5,0,0">
-            <!-- 왼쪽: 상태 텍스트 (UiStrings.cs에서 내용이 들어옵니다) -->
+            <!-- 왼쪽: 상태 텍스트 -->
             <TextBlock x:Name="txtFooter"
                        FontSize="11"
                        Foreground="#9CA3AF"

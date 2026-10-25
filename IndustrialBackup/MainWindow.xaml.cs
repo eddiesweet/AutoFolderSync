@@ -41,7 +41,7 @@ namespace IndustrialBackup
 
             string appDataFolder = Path.GetDirectoryName(BackupSettings.GetSettingsPath())
                 ?? Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "IndustrialBackup");
-            _logger = new BackupLogger(appDataFolder);
+            _logger = new BackupLogger(); // ✅ 인스턴스 생성 시 인수를 넣지 않음
             _backupService = new BackupService(_logger);
             _backupService.Log += BackupService_Log;
 
@@ -361,7 +361,6 @@ namespace IndustrialBackup
 
         private void ApplyLanguage()
         {
-            // [추가된 안전장치] 화면 컨트롤이 미처 다 생성되기 전에 이벤트가 발생하면 무시합니다.
             if (txtLogSection == null || txtAppTitle == null)
                 return;
 
@@ -392,6 +391,7 @@ namespace IndustrialBackup
             FillIntervalOptions();
             RefreshStatusText();
         }
+
         private void BackupService_Log(object? sender, string message)
         {
             Dispatcher.Invoke(() => AppendLog(message));
@@ -401,7 +401,6 @@ namespace IndustrialBackup
         {
             Dispatcher.Invoke(() =>
             {
-                // 로그가 500개를 넘어가면 가장 오래된(맨 위의) 로그를 삭제하여 메모리 보호
                 if (lstLog.Items.Count > 500)
                 {
                     lstLog.Items.RemoveAt(0);
@@ -426,7 +425,6 @@ namespace IndustrialBackup
         private static void SetStartupRegistration(bool enable)
         {
             const string keyName = @"SOFTWARE\Microsoft\Windows\CurrentVersion\Run";
-            // 단일 파일 환경에서도 정확한 .exe 경로를 가져오도록 수정
             string appPath = Environment.ProcessPath ?? System.Reflection.Assembly.GetExecutingAssembly().Location;
 
             using var key = Registry.CurrentUser.OpenSubKey(keyName, true) ?? Registry.CurrentUser.CreateSubKey(keyName);
@@ -440,6 +438,7 @@ namespace IndustrialBackup
                 key.DeleteValue("IndustrialBackup", false);
             }
         }
+
         private void BtnAbout_Click(object sender, RoutedEventArgs e)
         {
             var aboutWindow = new AboutWindow
@@ -448,5 +447,5 @@ namespace IndustrialBackup
             };
             aboutWindow.ShowDialog();
         }
-    } // MainWindow 클래스의 끝
-} // namespace의 끝
+    }
+}

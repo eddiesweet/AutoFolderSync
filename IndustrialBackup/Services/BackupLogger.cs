@@ -10,9 +10,11 @@ namespace IndustrialBackup.Services
         private readonly string _logFilePath;
         private readonly object _syncRoot = new();
 
-        public BackupLogger(string appDataFolder)
+        // 인수를 받지 않고 AppData\Local 경로를 내부에서 안전하게 설정
+        public BackupLogger()
         {
-            string logDirectory = Path.Combine(appDataFolder, "Logs");
+            string localAppData = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+            string logDirectory = Path.Combine(localAppData, "AutoFolderSync", "Logs");
             _logFilePath = Path.Combine(logDirectory, "backup.log");
 
             try
@@ -39,14 +41,14 @@ namespace IndustrialBackup.Services
 
                     string formatted = $"[{DateTime.Now:yyyy-MM-dd HH:mm:ss}] {message}";
 
-                    // 기존 로그 파일이 있으면 읽어오고, 없으면 새로 생성
+                    // 기존 파일이 있으면 읽어오고, 없으면 새로 생성
                     var lines = File.Exists(_logFilePath)
                         ? File.ReadAllLines(_logFilePath).ToList()
                         : [];
 
                     lines.Add(formatted);
 
-                    // 최신 1,000개 라인만 남기고 초과분 자르기
+                    // 최신 1,000줄만 남기고 초과분 삭제
                     if (lines.Count > MaxLogLines)
                     {
                         lines = lines.Skip(lines.Count - MaxLogLines).ToList();
