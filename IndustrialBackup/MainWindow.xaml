@@ -1,7 +1,8 @@
 ﻿<Window x:Class="IndustrialBackup.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Industrial Data Backup Manager"
+        Title="Auto Folder Sync"
+        Icon="app.ico"
         Height="650"
         Width="900"
         WindowStartupLocation="CenterScreen"
@@ -19,11 +20,13 @@
 
         <!-- 상단 타이틀 -->
         <StackPanel Grid.Row="0" Margin="0,0,0,20">
-            <TextBlock Text="산업용 장비 실시간 미러링 백업"
+            <TextBlock x:Name="txtAppTitle"
+                       Text="Auto Folder Sync"
                        FontSize="22"
                        FontWeight="Bold"
                        Foreground="#1F2937"/>
-            <TextBlock Text="Disk 0 (C:)의 핵심 데이터를 Disk 1 (D:)로 안전하게 동기화합니다."
+            <TextBlock x:Name="txtAppSubtitle"
+                       Text="지정한 원본 폴더의 데이터를 백업 폴더로 자동 동기화하여 안전하게 보호합니다."
                        FontSize="13"
                        Foreground="#6B7280"
                        Margin="0,5,0,0"/>
@@ -36,7 +39,8 @@
             </Border.Effect>
 
             <StackPanel>
-                <TextBlock Text="폴더 경로 설정"
+                <TextBlock x:Name="txtPathSection"
+                           Text="폴더 경로 설정"
                            FontWeight="Bold"
                            FontSize="14"
                            Foreground="#374151"
@@ -44,12 +48,13 @@
 
                 <Grid Margin="0,0,0,10">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="100"/>
+                        <ColumnDefinition Width="140"/>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="90"/>
                     </Grid.ColumnDefinitions>
 
-                    <TextBlock Text="원본 (C드라이브)"
+                    <TextBlock x:Name="lblSourcePath"
+                               Text="원본 폴더"
                                VerticalAlignment="Center"
                                Foreground="#4B5563"
                                FontWeight="SemiBold"/>
@@ -60,8 +65,7 @@
                              VerticalContentAlignment="Center"
                              Padding="5,0"
                              Margin="10,0"
-                             IsReadOnly="True"
-                             Background="#F9FAFB"/>
+                             Background="#FFFFFF"/>
 
                     <Button x:Name="btnBrowseSource"
                             Grid.Column="2"
@@ -74,12 +78,13 @@
 
                 <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="100"/>
+                        <ColumnDefinition Width="140"/>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="90"/>
                     </Grid.ColumnDefinitions>
 
-                    <TextBlock Text="백업 (D드라이브)"
+                    <TextBlock x:Name="lblTargetPath"
+                               Text="백업 폴더"
                                VerticalAlignment="Center"
                                Foreground="#4B5563"
                                FontWeight="SemiBold"/>
@@ -90,8 +95,7 @@
                              VerticalContentAlignment="Center"
                              Padding="5,0"
                              Margin="10,0"
-                             IsReadOnly="True"
-                             Background="#F9FAFB"/>
+                             Background="#FFFFFF"/>
 
                     <Button x:Name="btnBrowseTarget"
                             Grid.Column="2"
@@ -111,7 +115,8 @@
             </Border.Effect>
 
             <StackPanel>
-                <TextBlock Text="백업 환경 설정"
+                <TextBlock x:Name="txtSettingsSection"
+                           Text="백업 환경 설정"
                            FontWeight="Bold"
                            FontSize="14"
                            Foreground="#374151"
@@ -119,15 +124,43 @@
 
                 <WrapPanel>
                     <CheckBox x:Name="chkAutoBackup"
-                              Content="10분마다 자동 백업 실행"
+                              Content="자동 백업 실행"
                               IsChecked="True"
                               FontSize="13"
-                              Margin="0,0,30,0"
+                              Margin="0,0,24,8"
                               VerticalContentAlignment="Center"/>
                     <CheckBox x:Name="chkStartup"
                               Content="윈도우 시작 시 자동 실행 (시작프로그램)"
                               FontSize="13"
+                              Margin="0,0,24,8"
                               VerticalContentAlignment="Center"/>
+                    <StackPanel Orientation="Horizontal" Margin="0,0,24,8">
+                        <TextBlock x:Name="lblInterval"
+                                   Text="백업 주기"
+                                   VerticalAlignment="Center"
+                                   Margin="0,0,8,0"
+                                   Foreground="#4B5563"/>
+                        <ComboBox x:Name="cmbInterval"
+                                  Width="110"
+                                  Height="28"
+                                  VerticalAlignment="Center"
+                                  SelectionChanged="CmbInterval_SelectionChanged"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+                        <TextBlock x:Name="lblLanguage"
+                                   Text="언어"
+                                   VerticalAlignment="Center"
+                                   Margin="0,0,8,0"
+                                   Foreground="#4B5563"/>
+                        <ComboBox x:Name="cmbLanguage"
+                                  Width="80"
+                                  Height="28"
+                                  VerticalAlignment="Center"
+                                  SelectionChanged="CmbLanguage_SelectionChanged">
+                            <ComboBoxItem Content="KO" Tag="ko" IsSelected="True"/>
+                            <ComboBoxItem Content="EN" Tag="en"/>
+                        </ComboBox>
+                    </StackPanel>
                 </WrapPanel>
             </StackPanel>
         </Border>
@@ -146,7 +179,7 @@
                          Fill="#10B981"
                          Margin="0,0,8,0"/>
                 <TextBlock x:Name="txtStatus"
-                           Text="상태: 대기 중 (다음 백업까지 10분 남음)"
+                           Text="상태: 대기 중"
                            Foreground="#4B5563"
                            FontWeight="SemiBold"
                            FontSize="13"/>
@@ -161,7 +194,8 @@
                     FontWeight="Bold"
                     FontSize="14"
                     BorderBrush="{x:Null}"
-                    Cursor="Hand"/>
+                    Cursor="Hand"
+                    Click="BtnToggleBackup_Click"/>
         </Grid>
 
         <!-- 실시간 로그 창 -->
@@ -176,32 +210,55 @@
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
 
-                <TextBlock Text="실시간 백업 로그"
+                <TextBlock x:Name="txtLogSection"
+                           Text="실시간 백업 로그"
                            FontWeight="Bold"
                            FontSize="13"
                            Foreground="#374151"
                            Margin="0,0,0,8"/>
 
-                <TextBox x:Name="txtLog"
+                <ListBox x:Name="lstLog"
                          Grid.Row="1"
-                         AcceptsReturn="True"
-                         IsReadOnly="True"
                          Background="#111827"
                          Foreground="#34D399"
                          FontFamily="Consolas"
                          FontSize="12"
-                         Padding="8"
                          BorderBrush="{x:Null}"
-                         VerticalScrollBarVisibility="Auto"
-                         TextWrapping="Wrap"/>
+                         Padding="4"
+                         ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                         ScrollViewer.VerticalScrollBarVisibility="Auto">
+                    <ListBox.ItemContainerStyle>
+                        <Style TargetType="ListBoxItem">
+                            <Setter Property="Padding" Value="4,2"/>
+                            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                            <Setter Property="Foreground" Value="#34D399"/>
+                            <Setter Property="Background" Value="Transparent"/>
+                        </Style>
+                    </ListBox.ItemContainerStyle>
+                </ListBox>
             </Grid>
         </Border>
 
-        <!-- 하단 상태바 -->
-        <TextBlock Grid.Row="5"
-                   Text="Industrial Backup System v1.0 | Disk 0 ➔ Disk 1 Mirroring Active"
-                   FontSize="11"
-                   Foreground="#9CA3AF"
-                   HorizontalAlignment="Center"/>
+        <!-- 하단 상태바 및 프로그램 정보 버튼 -->
+        <Grid Grid.Row="5" Margin="0,5,0,0">
+            <!-- 왼쪽: 상태 텍스트 (UiStrings.cs에서 내용이 들어옵니다) -->
+            <TextBlock x:Name="txtFooter"
+                       FontSize="11"
+                       Foreground="#9CA3AF"
+                       HorizontalAlignment="Left"
+                       VerticalAlignment="Center"/>
+
+            <!-- 오른쪽: 프로그램 정보 버튼 -->
+            <Button x:Name="btnAbout"
+                    Content="프로그램 정보"
+                    Padding="10,4"
+                    Background="Transparent"
+                    BorderBrush="#D1D5DB"
+                    Foreground="#6B7280"
+                    Cursor="Hand"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Center"
+                    Click="BtnAbout_Click"/>
+        </Grid>
     </Grid>
 </Window>
