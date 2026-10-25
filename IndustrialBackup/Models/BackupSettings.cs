@@ -6,8 +6,8 @@ namespace IndustrialBackup.Models
 {
     public class BackupSettings
     {
-        public string SourcePath { get; set; } = @"C:\FactoryData";
-        public string TargetPath { get; set; } = @"D:\FactoryData_Backup";
+        public string SourcePath { get; set; } = @"C:\Dispenser";
+        public string TargetPath { get; set; } = @"D:\Dispenser";
         public bool AutoBackupEnabled { get; set; } = true;
         public bool StartWithWindows { get; set; } = false;
         public int BackupIntervalMinutes { get; set; } = 10;
