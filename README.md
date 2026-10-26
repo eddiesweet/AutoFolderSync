@@ -26,6 +26,14 @@
 - **지원 환경**: Windows 10 및 Windows 11 (64비트) (`.NET 8` 기반 Self-contained)
 - **미지원 환경**: Windows 7 및 32비트 운영체제
 
+## ⚖️ 라이선스 및 이용 약관 (Terms of Use)
+
+* **비영리 개인 사용 허용:** 개인적인 용도나 비영리 목적의 환경에서는 자유롭게 다운로드하여 사용할 수 있습니다.
+* **상업적 이용 금지:** 기업, 단체, 상업적 매장, 영리 목적의 프로젝트 등 **어떠한 형태의 상업적 이용도 엄격히 금지**합니다. (상업적 이용을 원하실 경우 별도 문의바랍니다.)
+* **소스코드 비공개 및 역공학 금지:** 본 프로그램의 소스코드는 공개되지 않으며, 사용자는 프로그램의 디컴파일(Decompile), 리버스 엔지니어링(Reverse Engineering), 무단 수정 및 재배포를 할 수 없습니다.
+* **면책 조항:** 본 프로그램을 사용하면서 발생하는 어떠한 시스템 손실이나 문제에 대해서도 개발자는 책임을 지지 않습니다.
+ 
+
 ---
 <img width="888" height="644" alt="image" src="https://github.com/user-attachments/assets/dcd1a5f0-9b8c-43ab-8c68-4ecfaf1f7876" />
 
@@ -52,5 +60,8 @@ A lightweight .NET 8 WPF desktop application designed to automatically synchroni
 
 ---
 
-## 📄 License
-This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for details.
+## 📄 License and Terms of Use
+Non-Profit Personal Use Allowed: You are free to download and use this program for personal or non-profit environments.
+Commercial Use Prohibited: Any form of commercial use, including use by corporations, organizations, commercial establishments, or profit-seeking projects, is strictly prohibited. (Please contact the developer separately for commercial licensing inquiries.)
+Source Code Secrecy & Anti-Reverse Engineering: The source code of this program is not disclosed. Users are strictly prohibited from decompiling, reverse engineering, modifying, or redistributing the software without authorization.
+Disclaimer: The developer assumes no liability or responsibility for any system loss or issues that may arise from using this program.
